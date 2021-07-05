@@ -27,6 +27,61 @@ OVERRIDE_TARGET_FLATTEN_APEX := true
 # prebuilt vendors, as init reads /product/build.prop after /vendor/build.prop
 PRODUCT_PRODUCT_PROPERTIES += ro.apex.updatable=false
 
+# Disable mobile data in roaming by default.
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.com.android.dataroaming=false
+
+# Gboard configuration
+PRODUCT_PRODUCT_PROPERTIES += \
+    ro.com.google.ime.bs_theme=true \
+    ro.com.google.ime.theme_id=5 \
+    ro.com.google.ime.system_lm_dir=/product/usr/share/ime/google/d3_lms
+
+# TextClassifier
+PRODUCT_PACKAGES += \
+	libtextclassifier_annotator_en_model \
+	libtextclassifier_annotator_universal_model \
+	libtextclassifier_actions_suggestions_universal_model \
+	libtextclassifier_lang_id_model
+
+# SetupWizard configuration
+PRODUCT_PRODUCT_PROPERTIES += \
+    ro.setupwizard.enterprise_mode=1 \
+    ro.setupwizard.esim_cid_ignore=00000001 \
+    ro.setupwizard.rotation_locked=true \
+    setupwizard.feature.baseline_setupwizard_enabled=true \
+    setupwizard.feature.device_default_dark_mode=true \
+    setupwizard.feature.show_pai_screen_in_main_flow.carrier1839=false \
+    setupwizard.feature.show_pixel_tos=true \
+    setupwizard.feature.skip_button_use_mobile_data.carrier1839=true \
+    setupwizard.theme=glif_v3_light
+
+# StorageManager configuration
+PRODUCT_PRODUCT_PROPERTIES += \
+    ro.storage_manager.show_opt_in=false
+
+# Google Play services configuration
+PRODUCT_PRODUCT_PROPERTIES += \
+    ro.com.google.clientidbase=android-google \
+    ro.error.receiver.system.apps=com.google.android.gms \
+    ro.atrace.core.services=com.google.android.gms,com.google.android.gms.ui,com.google.android.gms.persistent
+
+# CarrierSetup configuration
+PRODUCT_PRODUCT_PROPERTIES += \
+    ro.carriersetup.vzw_consent_page=true
+
+# Use gestures by default
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.boot.vendor.overlay.theme=com.android.internal.systemui.navbar.gestural
+
+# Turn off storage manager
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.storage_manager.enabled=false
+
+# DRM Service
+PRODUCT_PROPERTY_OVERRIDES += \
+    drm.service.enabled=true \
+
 # Disable RescueParty due to high risk of data loss
 PRODUCT_PRODUCT_PROPERTIES += \
     persist.sys.disable_rescue=true
@@ -82,5 +137,5 @@ PRODUCT_PACKAGES += \
 
 # Gapps
 ifeq ($(WITH_GMS),true)
-$(call inherit-product, vendor/gapps/common/common-vendor.mk)
+$(call inherit-product, vendor/gms/gms_full.mk)
 endif
